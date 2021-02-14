@@ -29,88 +29,83 @@
     <script src="js/star-rating.js" type="text/javascript"></script>
 </head>
 <body>
-	
+    <div class="container">
+        <div class="main-container">
+        	<?php foreach ($articles as $article) : ?>
+        		<div class="articles">
+        			<h3><a href="article.php?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a></h3>
+        			<!-- <div class="article-rating">Rating: <?php// echo round($article->rating); ?>/5</div> -->
+        			<form>
+                       <input id="input-21e" value="<?php echo round($article->rating); ?>" type="text" class="rating" data-min=0 data-max=5 data-step=0.5 data-size="xs" title="">
+        		    </form>
+        		</div>
+        	<?php endforeach; ?>
+        </div>
+        
+        <script>
+            jQuery(document).ready(function () {
+                $("#input-21f").rating({
+                    starCaptions: function (val) {
+                        if (val < 3) {
+                            return val;
+                        } else {
+                            return 'high';
+                        }
+                    },
+                    starCaptionClasses: function (val) {
+                        if (val < 3) {
+                            return 'label label-danger';
+                        } else {
+                            return 'label label-success';
+                        }
+                    },
+                    hoverOnClear: false
+                });
+                var $inp = $('#rating-input');
+
+                $inp.rating({
+                    min: 0,
+                    max: 5,
+                    step: 1,
+                    size: 'lg',
+                    showClear: false
+                });
+
+                $('#btn-rating-input').on('click', function () {
+                    $inp.rating('refresh', {
+                        showClear: true,
+                        disabled: !$inp.attr('disabled')
+                    });
+                });
 
 
+                $('.btn-danger').on('click', function () {
+                    $("#kartik").rating('destroy');
+                });
 
-<div class="container">
-<div class="main-container">
-	<?php foreach ($articles as $article) : ?>
-		<div class="articles">
-			<h3><a href="article.php?id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a></h3>
-			<!-- <div class="article-rating">Rating: <?php// echo round($article->rating); ?>/5</div> -->
-			<form>
-               <input id="input-21e" value="<?php echo round($article->rating); ?>" type="text" class="rating" data-min=0 data-max=5 data-step=0.5 data-size="xs" title="">
-		    </form>
-		</div>
-	<?php endforeach; ?>
-</div>
-    
-    
-    <script>
-        jQuery(document).ready(function () {
-            $("#input-21f").rating({
-                starCaptions: function (val) {
-                    if (val < 3) {
-                        return val;
-                    } else {
-                        return 'high';
-                    }
-                },
-                starCaptionClasses: function (val) {
-                    if (val < 3) {
-                        return 'label label-danger';
-                    } else {
-                        return 'label label-success';
-                    }
-                },
-                hoverOnClear: false
-            });
-            var $inp = $('#rating-input');
+                $('.btn-success').on('click', function () {
+                    $("#kartik").rating('create');
+                });
 
-            $inp.rating({
-                min: 0,
-                max: 5,
-                step: 1,
-                size: 'lg',
-                showClear: false
-            });
+                $inp.on('rating.change', function () {
+                    alert($('#rating-input').val());
+                });
 
-            $('#btn-rating-input').on('click', function () {
-                $inp.rating('refresh', {
-                    showClear: true,
-                    disabled: !$inp.attr('disabled')
+
+                $('.rb-rating').rating({
+                    'showCaption': true,
+                    'stars': '3',
+                    'min': '0',
+                    'max': '3',
+                    'step': '1',
+                    'size': 'xs',
+                    'starCaptions': {0: 'status:nix', 1: 'status:wackelt', 2: 'status:geht', 3: 'status:laeuft'}
+                });
+                $("#input-21c").rating({
+                    min: 0, max: 8, step: 0.5, size: "xl", stars: "8"
                 });
             });
-
-
-            $('.btn-danger').on('click', function () {
-                $("#kartik").rating('destroy');
-            });
-
-            $('.btn-success').on('click', function () {
-                $("#kartik").rating('create');
-            });
-
-            $inp.on('rating.change', function () {
-                alert($('#rating-input').val());
-            });
-
-
-            $('.rb-rating').rating({
-                'showCaption': true,
-                'stars': '3',
-                'min': '0',
-                'max': '3',
-                'step': '1',
-                'size': 'xs',
-                'starCaptions': {0: 'status:nix', 1: 'status:wackelt', 2: 'status:geht', 3: 'status:laeuft'}
-            });
-            $("#input-21c").rating({
-                min: 0, max: 8, step: 0.5, size: "xl", stars: "8"
-            });
-        });
-    </script>
-</div>
+        </script>
+    </div>
 </body>
 </html>
